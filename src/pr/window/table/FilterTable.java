@@ -14,6 +14,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pr.util.Utils;
 import pr.window.LaryngologFrame;
 
@@ -23,6 +26,7 @@ public class FilterTable extends JTable implements ActionListener, MouseListener
 	JMenuItem saveAllDataToCsv;
 	JMenuItem saveSelecteddataToCsv;
 	private LaryngologFrame laryngologMF;
+	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	public FilterTable(LaryngologFrame laryngologMF) {
 		super();
@@ -120,8 +124,7 @@ public class FilterTable extends JTable implements ActionListener, MouseListener
 			} catch (FileNotFoundException e1) {
 				JOptionPane.showMessageDialog(null, "Nie uda³o siê zapisaæ do pliku: " + csvFile.getAbsolutePath(),
 						"B³¹d", JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
-				utils.saveErrorToFile("FilterTable-001", e1.getMessage());
+				logger.error(e1.getMessage());
 			}
 		}
 	}
@@ -152,8 +155,7 @@ public class FilterTable extends JTable implements ActionListener, MouseListener
 			} catch (FileNotFoundException e1) {
 				JOptionPane.showMessageDialog(null, "Nie uda³o siê zapisaæ do pliku: " + csvFile.getAbsolutePath(),
 						"B³¹d", JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
-				utils.saveErrorToFile("FilterTable-002", e1.getMessage());
+				logger.error(e1.getMessage());
 			}
 		}
 	}

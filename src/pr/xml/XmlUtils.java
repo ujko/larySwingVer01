@@ -11,12 +11,14 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pr.connectionData.ConnectionData;
 import pr.encryption.CryptographyUtil;
-import pr.util.Utils;
 
 public class XmlUtils {
+	private static Logger logger = LoggerFactory.getLogger(XmlUtils.class.getName());
 	static final String file = "laryusers.xml";
 
 	/**
@@ -42,8 +44,7 @@ public class XmlUtils {
 				tablica[4] = connectionName.getChild("service").getText();
 			}
 		} catch (Exception e) {
-			Utils utils = new Utils();
-			utils.saveErrorToFile("XmlData-001", e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return tablica;
 	}
@@ -65,8 +66,7 @@ public class XmlUtils {
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlOutput.output(doc, new FileWriter(file));
 		} catch (Exception e) {
-			Utils utils = new Utils();
-			utils.saveErrorToFile("XmlData-002", e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -87,8 +87,7 @@ public class XmlUtils {
 			Element connectionName = rootElement.getChild(groupInXmlToFind);
 			foundChild = connectionName.getChildText(fieldInXmlToFind);
 		} catch (Exception e) {
-			Utils utils = new Utils();
-			utils.saveErrorToFile("XmlData-003", e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return foundChild;
 	}
@@ -122,8 +121,7 @@ public class XmlUtils {
 				xmlOutput.setFormat(Format.getPrettyFormat());
 				xmlOutput.output(doc, new FileWriter(file));
 			} catch (Exception e) {
-				Utils utils = new Utils();
-				utils.saveErrorToFile("XmlData-004", e.getMessage());
+				logger.error(e.getMessage());
 				return 1;
 			}
 		} else {
@@ -178,8 +176,7 @@ public class XmlUtils {
 				xmlOutput.setFormat(Format.getPrettyFormat());
 				xmlOutput.output(doc, new FileWriter(file));
 			} catch (IOException e) {
-				Utils utils = new Utils();
-				utils.saveErrorToFile("XmlData-005", e.getMessage());
+				logger.error(e.getMessage());
 			}
 		}
 	}
@@ -204,8 +201,7 @@ public class XmlUtils {
 					ifExist = true;
 				}
 			} catch (Exception e) {
-				Utils utils = new Utils();
-				utils.saveErrorToFile("XmlData-006", e.getMessage());
+				logger.error(e.getMessage());
 			}
 		}
 		return ifExist;
@@ -227,8 +223,7 @@ public class XmlUtils {
 				Element rootElement = doc.getRootElement();
 				list = rootElement.getChildren();
 			} catch (Exception e) {
-				Utils utils = new Utils();
-				utils.saveErrorToFile("XmlData-007", e.getMessage());
+				logger.error(e.getMessage());
 			}
 		}
 		return list;

@@ -10,10 +10,14 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pr.connectionData.ConnectionData;
 import pr.util.Utils;
 
 public class OracleQueries {
+	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	private static Connection con;
 
 	/**
@@ -27,9 +31,7 @@ public class OracleQueries {
 					cd.getUserName(), String.valueOf(cd.getPassword()));
 			return true;
 		} catch (Exception e) {
-			Utils utils = new Utils();
-			utils.saveErrorToFile("OracleQueries-001", e.getMessage());
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return false;
 		}
 	}
@@ -42,8 +44,7 @@ public class OracleQueries {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "<html>B³¹d - szczegó³y w pliku 'laryngo.log'", "B³¹d",
 					JOptionPane.ERROR_MESSAGE);
-			Utils utils = new Utils();
-			utils.saveErrorToFile("OracleQueries-002", e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return rs;
 	}
@@ -63,9 +64,7 @@ public class OracleQueries {
 				resultScalar = rs.getString(1);
 			}
 		} catch (SQLException e) {
-			Utils utils = new Utils();
-			utils.saveErrorToFile("OracleQueries-003", e.getMessage());
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return resultScalar;
 	}
@@ -80,8 +79,7 @@ public class OracleQueries {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "<html>B³¹d danych<br/>szczegó³y w pliku 'laryngo.log'", "B³¹d",
 					JOptionPane.ERROR_MESSAGE);
-			Utils utils = new Utils();
-			utils.saveErrorToFile("OracleQueries-004", e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return resultList;
 	}
@@ -94,8 +92,7 @@ public class OracleQueries {
 			}
 
 		} catch (SQLException e) {
-			Utils utils = new Utils();
-			utils.saveErrorToFile("OracleQueries-005", e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -105,9 +102,7 @@ public class OracleQueries {
 			int res = stmt.executeUpdate(ddl);
 			return res;
 		} catch (Exception e) {
-			Utils utils = new Utils();
-			utils.saveErrorToFile("OracleQueries-006", e.getMessage());
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return -1;
 		}
 	}

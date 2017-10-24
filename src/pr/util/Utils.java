@@ -4,15 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
@@ -25,9 +21,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.MaskFormatter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pr.oracle.OracleQueries;
 
 public class Utils {
+	private static Logger logger = LoggerFactory.getLogger(Utils.class.getName());
 	public static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");// format
 																					// wyœwietlania
 																					// dat
@@ -37,31 +37,9 @@ public class Utils {
 		try {
 			dateMask = new MaskFormatter("####-##-## ##:##");
 		} catch (ParseException e1) {
-			Utils utils = new Utils();
-			utils.saveErrorToFile("Utils-001", e1.getMessage());
-			e1.printStackTrace();
+			logger.error(e1.getMessage());
 		}
 		return dateMask;
-	}
-
-	/**
-	 * Zapis b³êdu (parametr err) do pliku Laryngo.log
-	 * 
-	 * @param err
-	 */
-	public void saveErrorToFile(String errNo, String err) {
-		FileWriter file = null;
-		try {
-			file = new FileWriter("Laryngo.log", true);
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Nie moge zapisaæ do pliku 'laryngo.log'", "B³¹d",
-					JOptionPane.ERROR_MESSAGE);
-		}
-		PrintWriter writer = new PrintWriter(file);
-		writer.println("\t" + new Date() + "\t" + errNo + "\t");
-		writer.println(err);
-		writer.flush();
-		writer.close();
 	}
 
 	/**
@@ -90,9 +68,7 @@ public class Utils {
 			}
 			return new DefaultTableModel(rows, columnNames);
 		} catch (Exception e) {
-			e.printStackTrace();
-			Utils utils = new Utils();
-			utils.saveErrorToFile("Utils-002", e.getMessage());
+			logger.error(e.getMessage());
 			return null;
 		}
 	}
